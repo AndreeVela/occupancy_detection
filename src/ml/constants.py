@@ -1,0 +1,4 @@
+X_TRAIN = 0
+X_TEST = 1
+Y_TRAIN = 2
+Y_TEST = 3
