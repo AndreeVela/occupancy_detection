@@ -9,7 +9,8 @@ from sklearn.metrics import confusion_matrix, accuracy_score, roc_auc_score
 
 def grid_search( estimator, params ):
 	refit = 'accuracy'
-	scoring = ( refit, 'roc_auc_ovr' )
+	scoring = refit
+
 	cv_method = RepeatedStratifiedKFold( n_splits = 10, n_repeats = 2, random_state = 0 )
 
 	return GridSearchCV(
