@@ -1,6 +1,9 @@
 .DS_Store
 .ipynb_checkpoints/
 .virtual_documents/
+src/ml/__pycache__
+src/ml/__pycache__/*
+
 *.tmp
 
 # Word temporary

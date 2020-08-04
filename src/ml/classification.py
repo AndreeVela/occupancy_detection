@@ -4,17 +4,19 @@ import pandas as pd
 import numpy as np
 
 from sklearn.model_selection import RepeatedStratifiedKFold, GridSearchCV
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score, roc_auc_score
 
 
 def grid_search( estimator, params ):
-	scoring = 'accuracy'
+	refit = 'accuracy'
+	scoring = ( refit, 'roc_auc_ovr' )
 	cv_method = RepeatedStratifiedKFold( n_splits = 10, n_repeats = 2, random_state = 0 )
 
 	return GridSearchCV(
 		estimator = estimator,
 		param_grid = params,
 		cv = cv_method,
+		refit = refit,
 		verbose = False,
 		scoring = scoring,
 		return_train_score = True )
@@ -33,6 +35,14 @@ def train_and_test( estimator, params, x_train, y_train,
 
 	y_pred = grid.best_estimator_.predict( x_test )
 	print( 'Test Accuracy: ', accuracy_score( y_test, y_pred ) )
+
+	try:
+		y_pro = grid.best_estimator_.decision_function( x_test )
+	except Exception as e:
+		print( 'Exception arised while trying to use decision_function: %s, predict_proba will be used instead.' % ( e ) )
+		y_pro = grid.best_estimator_.predict_proba( x_test )
+	finally:
+		print( 'Test ROCauc (OvR):', roc_auc_score( y_test, y_pro, multi_class = 'ovr' ) )
 
 	if( plot_cmatrix ) :
 		fig, ax = plt.subplots( 1, 1 )
