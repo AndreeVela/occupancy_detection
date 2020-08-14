@@ -25,7 +25,7 @@ def grid_search( estimator, params ):
 
 
 def train_and_test( estimator, params, x_train, y_train,
-				   x_test, y_test, plot_cmatrix = False ):
+				   x_test, y_test, plot_cmatrix = False, labels = [] ):
 
 	grid = grid_search( estimator, params )
 
@@ -38,22 +38,21 @@ def train_and_test( estimator, params, x_train, y_train,
 	y_pred = grid.best_estimator_.predict( x_test )
 	print( 'Test Accuracy: ', accuracy_score( y_test, y_pred ) )
 
-	try:
-		y_pro = grid.best_estimator_.decision_function( x_test )
-	except Exception as e:
-		print( 'Exception arised while trying to use decision_function, predict_proba will be used instead.' )
-		y_pro = grid.best_estimator_.predict_proba( x_test )
-	finally:
-		print( 'Test ROCauc (OvR):', roc_auc_score( y_test, y_pro, multi_class = 'ovr' ) )
+	y_pro = grid.best_estimator_.predict_proba( x_test )
+	print( 'Test ROCauc (OvR):', roc_auc_score( y_test, y_pro, multi_class = 'ovr' ) )
 
 	print()
 	print( 'Detailed Classification Report' )
 	print( classification_report( y_test, y_pred ) )
 	print()
 
-	if( plot_cmatrix ) :
+	if( plot_cmatrix ):
 		fig, ax = plt.subplots( 1, 1 )
-		g = sns.heatmap( confusion_matrix( y_test, y_pred ), annot = True, cmap = "YlGnBu" )
+
+		cm = confusion_matrix( y_test, y_pred, normalize = 'true', labels = labels )
+		cm = pd.DataFrame( cm, index = labels, columns = labels )
+
+		g = sns.heatmap( cm, annot = True, cmap = "YlGnBu" )
 		g.set_title( 'Test Confussion Matrix' )
 
 	return grid
