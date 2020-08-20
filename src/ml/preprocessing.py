@@ -58,8 +58,7 @@ def resample_df( df, freq ):
 def resample_df_avg( df, freq, agg = 'mean' ):
 
 	return ( df.resample( freq )
-		.agg( { 'pre': agg, 'hum': agg, 'tem': agg,
-			'ven': mode, 'occ': mode, } )
+		.agg( { 'pre': agg, 'hum': agg, 'tem': agg, 'occ': mode, } )
 		.dropna( axis = 0, how = 'any' ) )
 
 

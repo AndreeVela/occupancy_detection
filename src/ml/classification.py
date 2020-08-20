@@ -1,18 +1,25 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
-from sklearn.metrics import classification_report
-from sklearn.model_selection import RepeatedStratifiedKFold, GridSearchCV
-from sklearn.metrics import confusion_matrix, accuracy_score, roc_auc_score
+from sklearn.model_selection import (
+	RepeatedStratifiedKFold,
+	GridSearchCV
+)
+from sklearn.metrics import (
+	accuracy_score,
+	confusion_matrix,
+	classification_report,
+	roc_auc_score
+)
 
 
 def grid_search( estimator, params ):
 	refit = 'accuracy'
 	scoring = refit
 
-	cv_method = RepeatedStratifiedKFold( n_splits = 10, n_repeats = 2, random_state = 0 )
+	cv_method = RepeatedStratifiedKFold( n_splits = 5, n_repeats = 4, random_state = 0 )
 
 	return GridSearchCV(
 		estimator = estimator,

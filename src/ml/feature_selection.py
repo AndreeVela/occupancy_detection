@@ -11,7 +11,7 @@ from sklearn.feature_selection import chi2, f_classif
 
 
 def select_k_rfe( x, y, names, k = 1, ):
-	model = DecisionTreeClassifier( criterion = 'gini', max_depth = 10 )
+	model = DecisionTreeClassifier( criterion = 'gini', max_depth = 12 )
 	rfe = RFE( model, n_features_to_select = k )
 
 	rfe = rfe.fit( x, y )
