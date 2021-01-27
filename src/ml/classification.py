@@ -28,7 +28,8 @@ def grid_search( estimator, params ):
 		refit = refit,
 		verbose = False,
 		scoring = scoring,
-		return_train_score = True )
+		return_train_score = True,
+		n_jobs = -1 )
 
 
 def train_and_test( estimator, params, x_train, y_train,

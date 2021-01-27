@@ -90,5 +90,5 @@ def plot_learning_curves( dfs, grids, alg_name ):
 							cv = cv, n_jobs = 4 )
 		ax += 1
 
-	fig.suptitle( 'Learning Curves ' + alg_name + ' with PCA', fontsize= 20 )
+	fig.suptitle( 'Learning Curves using ' + alg_name , fontsize= 20 )
 	plt.show()
